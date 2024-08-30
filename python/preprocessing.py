@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 from haversine import haversine
 
-def preprocessing(link):
+def preprocessing(link, save=False, to_link=null):
     try:
         df = pd.read_csv(link, sep="\t", encoding='cp949', index_col=0)
     except:
@@ -44,5 +44,8 @@ def preprocessing(link):
     df['class'] = np.ones(df.shape[0])
 
     df.drop(columns='index', inplace=True)
+
+    if save:
+        df.to_csv(to_link, encoding='cp949')
 
     return df
