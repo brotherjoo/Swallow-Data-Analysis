@@ -1,4 +1,4 @@
-from preprocessing import preprocessing
+from modules.preprocessing import preprocessing
 import pandas as pd
 
 df = preprocessing(input())
