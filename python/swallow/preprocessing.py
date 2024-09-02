@@ -1,6 +1,18 @@
-import numpy as np
 import pandas as pd
 from haversine import haversine
+
+def distance(df):
+    list_temp = []
+
+    for i in range(df.shape[0]-2):
+        list_temp.append(haversine(df.iloc[i]['Latitude'], df.iloc[i]['Longitude'], df.iloc[i+1]['Latitude'], df.iloc[i+1]['Longitude']))  ## index 1 ~ index 691 까지
+
+    temp = pd.Series(list_temp, name="distance(km)")
+
+    df = df.drop(columns='distance(km)')
+    df = pd.concat([df, temp], axis=1)
+
+    return df
 
 def preprocessing(link, save=False, to_link=None):
     df = pd.read_csv(link, sep="\t", encoding='cp949', index_col=0)
