@@ -1,6 +1,6 @@
 import folium as fl
 
-def mapping_dot(df, color='blue'):
+def mapping_dot(df, df_2 = None, color='blue'):
     m = fl.Map(location=(df.iloc[0]['Latitude'], df.iloc[0]['Longitude']))
     df.reset_index(inplace=True)
     df.drop(columns='index', inplace=True)
@@ -56,4 +56,26 @@ def mapping_line(df, df_2):
 
     fl.PolyLine(locations=polylist, color='blue').add_to(m)
 
+    return m
+
+def mapping_d(df, df_2):
+    m = fl.Map(location=(df.iloc[0]['Latitude'], df.iloc[0]['Longitude']))
+    df.reset_index(inplace=True)
+    df.drop(columns='index', inplace=True)
+    for i in range(df.shape[0]):
+        fl.Marker(
+            location=(df.iloc[i]['Latitude'], df.iloc[i]['Longitude']),
+            popup=f"<div><p>{df.iloc[i]['First']}</p><p>{df.iloc[i]['Latitude']}</p><p>{df.iloc[i]['Longitude']}</p></div>",
+            tooltip=df.iloc[i]['First'],
+            icon=fl.Icon(color='blue'),
+        ).add_to(m)
+
+    for i in range(df_2.shape[0]):
+        fl.Marker(
+            location=(df_2.iloc[i]['Latitude'], df_2.iloc[i]['Longitude']),
+            popup=f"<div><p>{df_2.iloc[i]['First']}</p><p>{df_2.iloc[i]['Latitude']}</p><p>{df_2.iloc[i]['Longitude']}</p></div>",
+            tooltip=df_2.iloc[i]['First'],
+            icon=fl.Icon(color="red"),
+        ).add_to(m)
+    
     return m

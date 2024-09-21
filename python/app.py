@@ -5,7 +5,7 @@ from tkinter import *
 from tkinter import filedialog
 import os
 from tkinter import messagebox
-from mapping import mapping_line
+from mapping import mapping_d
 from pandas import concat
 
 text = r'*.txt'
@@ -37,20 +37,17 @@ def processing():
         try:
             df, li = classifiy(df, roop_count=int(number.get()))
             if is_compare:
-                df_2, li_2 = classifiy(df, roop_count=int(number.get()))
+                df_2, li_2 = classifiy(df_2, roop_count=int(number.get()))
         except:
             messagebox.showerror('숫자를 입력하십시오')
 
         if is_compare:
-            m = mapping_dot(df)
-            m2 = mapping_dot(df, color='red')
-            m2.save(os.path.join(en_folderpath.get(), 'map2.html'))
+            df_compare = concat([df, df_2], axis=0)
+            m = mapping_d(df, df_2)
         else:
             m = mapping_dot(df)
 
         m.save(os.path.join(en_folderpath.get(), 'map.html'))
-
-        df_compare = concat([df, df_2], axis=0)
         df.to_csv(os.path.join(en_folderpath.get(), 'data_frame.csv'))
         if is_compare:
             df_2.to_csv(os.path.join(en_folderpath.get(), 'data_frame_2.csv'))
